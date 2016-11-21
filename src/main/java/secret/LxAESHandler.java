@@ -1,9 +1,6 @@
 package secret;
 
-import exception.LxDecryptException;
-import exception.LxEncryptException;
-import exception.LxKeyException;
-import exception.LxUnsupportException;
+import exception.*;
 import org.json.JSONObject;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
@@ -49,9 +46,9 @@ public class LxAESHandler implements Serializable {
     /**
      * <p>构造方法</p>
      * <p>刷新秘钥向量和时间</p>
-     * @throws LxUnsupportException
+     * @throws LxNonsupportException
      */
-    public LxAESHandler() throws LxUnsupportException {
+    public LxAESHandler() throws LxNonsupportException {
         refreshKey();
     }
 
@@ -85,22 +82,34 @@ public class LxAESHandler implements Serializable {
         }
     }
 
+    /**
+     * 获取 AES 的 key
+     * @return
+     */
     private String getSecretKey() {
         return new BASE64Encoder().encodeBuffer(secretKey.getEncoded());
     }
 
-    public String encryptWithUTF8(String __value) throws LxUnsupportException, LxKeyException, LxEncryptException {
+    /**
+     *
+     * @param value
+     * @return
+     * @throws LxNonsupportException
+     * @throws LxKeyException
+     * @throws LxEncryptException
+     */
+    public String encryptWithUTF8(String value) throws LxNonsupportException, LxKeyException, LxEncryptException {
         try {
             Cipher __cipher = Cipher.getInstance(ALGORIHM);
             __cipher.init(Cipher.ENCRYPT_MODE, this.secretKey, new IvParameterSpec(this.IV));
-            byte[] __data = __cipher.doFinal(__value.getBytes("UTF8"));
+            byte[] __data = __cipher.doFinal(value.getBytes("UTF8"));
             return new BASE64Encoder().encodeBuffer(__data);
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
-            throw new LxUnsupportException(e.getMessage());
+            throw new LxNonsupportException(e.getMessage());
         } catch (NoSuchPaddingException e) {
             e.printStackTrace();
-            throw new LxUnsupportException(e.getMessage());
+            throw new LxNonsupportException(e.getMessage());
         } catch (InvalidKeyException e) {
             e.printStackTrace();
             throw new LxKeyException(e.getMessage());
@@ -121,18 +130,18 @@ public class LxAESHandler implements Serializable {
 
     }
 
-    public String decryptWithUTF8(String __value) throws LxUnsupportException, LxKeyException, LxDecryptException {
+    public String decryptWithUTF8(String value) throws LxNonsupportException, LxKeyException, LxDecryptException {
         try {
-            Cipher __cipher = Cipher.getInstance(ALGORIHM);
-            __cipher.init(Cipher.DECRYPT_MODE, this.secretKey, new IvParameterSpec(this.IV));
-            byte[] __data = __cipher.doFinal(new BASE64Decoder().decodeBuffer(__value));
-            return new String(__data, "UTF-8");
+            Cipher cipher = Cipher.getInstance(ALGORIHM);
+            cipher.init(Cipher.DECRYPT_MODE, this.secretKey, new IvParameterSpec(this.IV));
+            byte[] data = cipher.doFinal(new BASE64Decoder().decodeBuffer(value));
+            return new String(data, "UTF-8");
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
-            throw new LxUnsupportException(e.getMessage());
+            throw new LxNonsupportException(e.getMessage());
         } catch (NoSuchPaddingException e) {
             e.printStackTrace();
-            throw new LxUnsupportException(e.getMessage());
+            throw new LxNonsupportException(e.getMessage());
         } catch (InvalidKeyException e) {
             e.printStackTrace();
             throw new LxKeyException(e.getMessage());
@@ -157,11 +166,11 @@ public class LxAESHandler implements Serializable {
 
     @Override
     public String toString() {
-        Map<String, Object> __map = new HashMap<String, Object>();
-        __map.put("key", this.getSecretKey());
-        __map.put("iv", new BASE64Encoder().encodeBuffer(this.IV));
-        __map.put("bt", this.birthtime);
-        return new JSONObject(__map).toString();
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("key", this.getSecretKey());
+        map.put("iv", new BASE64Encoder().encodeBuffer(this.IV));
+        map.put("bt", this.birthtime);
+        return new JSONObject(map).toString();
     }
 
     @Deprecated
@@ -170,17 +179,17 @@ public class LxAESHandler implements Serializable {
     }
 
     @Deprecated
-    void refreshKey() throws LxUnsupportException {
-        KeyGenerator __keyGenerator = null;
+    void refreshKey() throws LxNonsupportException {
+        KeyGenerator keyGenerator = null;
         try {
-            __keyGenerator = KeyGenerator.getInstance("AES");
-            __keyGenerator.init(KEY_LENGTH);
-            this.secretKey = __keyGenerator.generateKey();
+            keyGenerator = KeyGenerator.getInstance("AES");
+            keyGenerator.init(KEY_LENGTH);
+            this.secretKey = keyGenerator.generateKey();
             this.IV = RandomUtil.generateString(KEY_LENGTH / 8).getBytes();
             this.birthtime = new Date().getTime();
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
-            throw new LxUnsupportException(e.getMessage());
+            throw new LxNonsupportException(e.getMessage());
         }
     }
 

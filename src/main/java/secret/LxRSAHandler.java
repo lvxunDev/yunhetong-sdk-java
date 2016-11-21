@@ -1,6 +1,6 @@
 package secret;
 
-import com.yunhetong.sdk.util.exception.*;
+import exception.*;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
@@ -28,80 +28,80 @@ final class LxRSAHandler {
 
     private static final int KEY_LENGTH = 1024;
 
-    void initPublicKey4Stream(InputStream __stream) throws LxKeyException, LxUnsupportException {
+    void initPublicKey4Stream(InputStream stream) throws LxKeyException, LxNonsupportException {
         try {
-            publicKey = LxRSAHandler.publicKey4String(readStream(__stream));
+            publicKey = LxRSAHandler.publicKey4String(readStream(stream));
         } catch (IOException e) {
             e.printStackTrace();
             throw new LxKeyException(e.getMessage());
         }
     }
 
-    void initPrivateKey4Stream(InputStream __stream) throws LxKeyException, LxUnsupportException {
+    void initPrivateKey4Stream(InputStream stream) throws LxKeyException, LxNonsupportException {
         try {
-            privateKey = LxRSAHandler.privateKey4String(readStream(__stream));
+            privateKey = LxRSAHandler.privateKey4String(readStream(stream));
         } catch (IOException e) {
             e.printStackTrace();
             throw new LxKeyException(e.getMessage());
         }
     }
 
-    private static String readStream(InputStream __stream) throws IOException {
-        InputStreamReader __read = null;
-        BufferedReader __bufferedReader = null;
-        StringBuilder __sb = null;
+    private static String readStream(InputStream stream) throws IOException {
+        InputStreamReader read = null;
+        BufferedReader bufferedreader = null;
+        StringBuilder sb = null;
         try {
-            __read = new InputStreamReader(__stream);
-            __bufferedReader = new BufferedReader(__read);
-            __sb = new StringBuilder();
-            String __readLine;
-            while ((__readLine = __bufferedReader.readLine()) != null) {
-                __sb.append(__readLine);
+            read = new InputStreamReader(stream);
+            bufferedreader = new BufferedReader(read);
+            sb = new StringBuilder();
+            String readline;
+            while ((readline = bufferedreader.readLine()) != null) {
+                sb.append(readline);
             }
         } finally {
-            if (__bufferedReader != null) __bufferedReader.close();
-            if (__read != null) __read.close();
+            if (bufferedreader != null) bufferedreader.close();
+            if (read != null) read.close();
         }
-        return __sb == null ? null : __sb.toString();
+        return sb.toString();
     }
 
-    String encryptRSAWithUTF8(String __data) throws LxUnsupportException, LxKeyException, LxEncrypteException {
+    String encryptRSAWithUTF8(String data) throws LxNonsupportException, LxKeyException, LxEncryptException {
         try {
-            Cipher __cipher = Cipher.getInstance("RSA");
-            __cipher.init(Cipher.ENCRYPT_MODE, publicKey);
-            return new BASE64Encoder().encode(__cipher.doFinal(__data.getBytes("UTF-8")));
+            Cipher cipher = Cipher.getInstance("RSA");
+            cipher.init(Cipher.ENCRYPT_MODE, publicKey);
+            return new BASE64Encoder().encode(cipher.doFinal(data.getBytes("UTF-8")));
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
-            throw new LxUnsupportException(e.getMessage());
+            throw new LxNonsupportException(e.getMessage());
         } catch (NoSuchPaddingException e) {
             e.printStackTrace();
-            throw new LxUnsupportException(e.getMessage());
+            throw new LxNonsupportException(e.getMessage());
         } catch (InvalidKeyException e) {
             e.printStackTrace();
             throw new LxKeyException(e.getMessage());
         } catch (BadPaddingException e) {
             e.printStackTrace();
-            throw new LxEncrypteException(e.getMessage());
+            throw new LxEncryptException(e.getMessage());
         } catch (IllegalBlockSizeException e) {
             e.printStackTrace();
-            throw new LxEncrypteException(e.getMessage());
+            throw new LxEncryptException(e.getMessage());
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
-            throw new LxUnsupportException(e.getMessage());
+            throw new LxEncryptException(e.getMessage());
         }
     }
 
-    String decryptRSAWithUTF8(String __data) throws LxUnsupportException, LxKeyException, LxDecryptException {
+    String decryptRSAWithUTF8(String data) throws LxNonsupportException, LxKeyException, LxDecryptException {
         try {
-            Cipher __cipher = Cipher.getInstance("RSA");
-            __cipher.init(Cipher.DECRYPT_MODE, privateKey);
-            return new String(__cipher.doFinal(new BASE64Decoder().decodeBuffer(__data)), "UTF-8");
+            Cipher cipher = Cipher.getInstance("RSA");
+            cipher.init(Cipher.DECRYPT_MODE, privateKey);
+            return new String(cipher.doFinal(new BASE64Decoder().decodeBuffer(data)), "UTF-8");
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
-            throw new LxUnsupportException(e.getMessage());
+            throw new LxNonsupportException(e.getMessage());
         } catch (NoSuchPaddingException e) {
             e.printStackTrace();
-            throw new LxUnsupportException(e.getMessage());
+            throw new LxNonsupportException(e.getMessage());
         } catch (InvalidKeyException e) {
             e.printStackTrace();
             throw new LxKeyException(e.getMessage());
@@ -122,15 +122,15 @@ final class LxRSAHandler {
 
     }
 
-    String signWithUTF8(String __content) throws LxUnsupportException, LxSignatureException, LxKeyException {
+    String signWithUTF8(String content) throws LxNonsupportException, LxSignatureException, LxKeyException {
         try {
-            Signature __signature = Signature.getInstance("SHA1WithRSA");
-            __signature.initSign((PrivateKey) this.privateKey);
-            __signature.update(__content.getBytes("UTF-8"));
-            return new BASE64Encoder().encode(__signature.sign());
+            Signature signature = Signature.getInstance("SHA1WithRSA");
+            signature.initSign((PrivateKey) this.privateKey);
+            signature.update(content.getBytes("UTF-8"));
+            return new BASE64Encoder().encode(signature.sign());
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
-            throw new LxUnsupportException(e.getMessage());
+            throw new LxNonsupportException(e.getMessage());
         } catch (SignatureException e) {
             e.printStackTrace();
             throw new LxSignatureException(e.getMessage());
@@ -138,21 +138,21 @@ final class LxRSAHandler {
             e.printStackTrace();
             throw new LxKeyException(e.getMessage());
         } catch (UnsupportedEncodingException e) {
-            throw new LxUnsupportException(e.getMessage());
+            throw new LxNonsupportException(e.getMessage());
         }
     }
 
-    Boolean verifyWithUTF8(String __content, String __sign) throws LxUnsupportException, LxKeyException, LxVerifyException {
+    Boolean verifyWithUTF8(String content, String sign) throws LxNonsupportException, LxKeyException, LxVerifyException {
         try {
-            Signature __signature = Signature.getInstance("SHA1WithRSA");
+            Signature signature = Signature.getInstance("SHA1WithRSA");
 
-            __signature.initVerify((PublicKey) this.publicKey);
-            __signature.update(__content.getBytes("UTF-8"));
+            signature.initVerify((PublicKey) this.publicKey);
+            signature.update(content.getBytes("UTF-8"));
 
-            return __signature.verify(new BASE64Decoder().decodeBuffer(__sign));
+            return signature.verify(new BASE64Decoder().decodeBuffer(sign));
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
-            throw new LxUnsupportException(e.getMessage());
+            throw new LxNonsupportException(e.getMessage());
         } catch (IOException e) {
             e.printStackTrace();
             throw new LxVerifyException(e.getMessage());
@@ -165,62 +165,60 @@ final class LxRSAHandler {
         }
     }
 
-    static Map<String, Key> generateKey() throws LxUnsupportException {
+    static Map<String, Key> generateKey() throws LxNonsupportException {
 
         KeyPairGenerator keyPairGen = null;
         try {
             keyPairGen = KeyPairGenerator.getInstance("RSA");
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
-            throw new LxUnsupportException(e.getMessage());
+            throw new LxNonsupportException(e.getMessage());
         }
         keyPairGen.initialize(KEY_LENGTH);
         KeyPair keyPair = keyPairGen.generateKeyPair();
-        RSAPublicKey __publicKey = (RSAPublicKey) keyPair.getPublic();
-        RSAPrivateKey __privateKey = (RSAPrivateKey) keyPair.getPrivate();
+        RSAPublicKey publickey = (RSAPublicKey) keyPair.getPublic();
+        RSAPrivateKey privatekey = (RSAPrivateKey) keyPair.getPrivate();
 
-        Map<String, Key> __map = new HashMap<String, Key>();
-        __map.put("public", __publicKey);
-        __map.put("private", __privateKey);
-        return __map;
+        Map<String, Key> map = new HashMap<String, Key>();
+        map.put("public", publickey);
+        map.put("private", privatekey);
+        return map;
 
     }
 
-    static PublicKey publicKey4String(String __publicKey) throws LxKeyException, LxUnsupportException {
+    static PublicKey publicKey4String(String __publicKey) throws LxKeyException, LxNonsupportException {
         try {
             X509EncodedKeySpec keySpec = new X509EncodedKeySpec(new BASE64Decoder().decodeBuffer(__publicKey));
             KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-            PublicKey publicKey = keyFactory.generatePublic(keySpec);
-            return publicKey;
+            return keyFactory.generatePublic(keySpec);
         } catch (IOException e) {
             e.printStackTrace();
             throw new LxKeyException(e.getMessage());
         } catch (InvalidKeySpecException e) {
             throw new LxKeyException(e.getMessage());
         } catch (NoSuchAlgorithmException e) {
-            throw new LxUnsupportException(e.getMessage());
+            throw new LxNonsupportException(e.getMessage());
         }
     }
 
-    static PrivateKey privateKey4String(String __privateKey) throws LxKeyException, LxUnsupportException {
+    static PrivateKey privateKey4String(String privateKeyString) throws LxKeyException, LxNonsupportException {
         try {
-            PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(new BASE64Decoder().decodeBuffer(__privateKey));
+            PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(new BASE64Decoder().decodeBuffer(privateKeyString));
             KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-            PrivateKey privateKey = keyFactory.generatePrivate(keySpec);
-            return privateKey;
+            return keyFactory.generatePrivate(keySpec);
         } catch (IOException e) {
             e.printStackTrace();
             throw new LxKeyException(e.getMessage());
         } catch (InvalidKeySpecException e) {
             throw new LxKeyException(e.getMessage());
         } catch (NoSuchAlgorithmException e) {
-            throw new LxUnsupportException(e.getMessage());
+            throw new LxNonsupportException(e.getMessage());
         }
 
 
     }
 
-    static String string4Key(Key __key) {
-        return new BASE64Encoder().encode(__key.getEncoded());
+    static String string4Key(Key key) {
+        return new BASE64Encoder().encode(key.getEncoded());
     }
 }
