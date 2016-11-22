@@ -18,7 +18,7 @@ import java.util.Map;
 
 /**
  * <p>Title: LxAESHandler</p>
- * <p>Description: 算法不支持的异常</p>
+ * <p>Description: AES加密的相关算法 </p>
  * <p>Copyright: Copyright (c) 2016</p>
  * <p>Company: www.yunhetong.com</p>
  *
@@ -36,16 +36,23 @@ public class LxAESHandler implements Serializable {
      **/
     private static final int KEY_LENGTH = 128;
 
-    /** AES 秘钥 **/
+    /**
+     * AES 秘钥
+     **/
     private SecretKey secretKey;
-    /** AES 加密向量**/
+    /**
+     * AES 加密向量
+     **/
     private byte[] IV;
-    /** 秘钥生成时间 **/
+    /**
+     * 秘钥生成时间
+     **/
     private long birthtime;
 
     /**
      * <p>构造方法</p>
      * <p>刷新秘钥向量和时间</p>
+     *
      * @throws LxNonsupportException
      */
     public LxAESHandler() throws LxNonsupportException {
@@ -55,6 +62,7 @@ public class LxAESHandler implements Serializable {
     /**
      * <p>构造方法</p>
      * <p>刷新秘钥向量和时间</p>
+     *
      * @param bytes 转化成字节的秘钥
      * @throws LxKeyException
      */
@@ -65,6 +73,7 @@ public class LxAESHandler implements Serializable {
     /**
      * <p>构造方法</p>
      * <p>通过一个有key,iv,bt的json串初始化 aes</p>
+     *
      * @param json 有着key，iv,bt 的 json 串
      * @throws LxKeyException
      */
@@ -84,16 +93,18 @@ public class LxAESHandler implements Serializable {
 
     /**
      * 获取 AES 的 key
-     * @return
+     *
+     * @return 返回 base64 之后的 key
      */
     private String getSecretKey() {
         return new BASE64Encoder().encodeBuffer(secretKey.getEncoded());
     }
 
     /**
+     * AES 加密方法
      *
-     * @param value
-     * @return
+     * @param value 要加密的值
+     * @return 加密之后再 base64 的值
      * @throws LxNonsupportException
      * @throws LxKeyException
      * @throws LxEncryptException
@@ -130,6 +141,16 @@ public class LxAESHandler implements Serializable {
 
     }
 
+    /**
+     * AES 解密
+     *
+     * @param value 要解密的字符串
+     *              该字符串是 AES 加密之后再 base64 之后的字符串
+     * @return 返回解密之后的明文
+     * @throws LxNonsupportException
+     * @throws LxKeyException
+     * @throws LxDecryptException
+     */
     public String decryptWithUTF8(String value) throws LxNonsupportException, LxKeyException, LxDecryptException {
         try {
             Cipher cipher = Cipher.getInstance(ALGORIHM);
@@ -164,6 +185,9 @@ public class LxAESHandler implements Serializable {
 
     }
 
+    /**
+     * @return 返回 json 格式的 {"key":"xxx","iv":"xxx","bt":"xxx" }
+     */
     @Override
     public String toString() {
         Map<String, Object> map = new HashMap<String, Object>();
@@ -173,11 +197,21 @@ public class LxAESHandler implements Serializable {
         return new JSONObject(map).toString();
     }
 
+    /**
+     * 算时间差的方法
+     *
+     * @return 返回 现在到 birthtime 到现在的时间差
+     */
     @Deprecated
     long timeDifference() {
         return new Date().getTime() - this.birthtime;
     }
 
+    /**
+     * 刷新 aes 的 key,iv 和 birthtime
+     *
+     * @throws LxNonsupportException
+     */
     @Deprecated
     void refreshKey() throws LxNonsupportException {
         KeyGenerator keyGenerator = null;
@@ -191,34 +225,5 @@ public class LxAESHandler implements Serializable {
             e.printStackTrace();
             throw new LxNonsupportException(e.getMessage());
         }
-    }
-
-    @Deprecated
-    public LxAESHandler clone() {
-        Object o = null;
-        ObjectOutputStream oos = null;
-        ObjectInputStream ois = null;
-        try {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            oos = new ObjectOutputStream(baos);
-            oos.writeObject(this);
-
-            ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
-            ois = new ObjectInputStream(bais);
-            o = ois.readObject();
-            return (LxAESHandler) o;
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                oos.close();
-                ois.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return this;
     }
 }

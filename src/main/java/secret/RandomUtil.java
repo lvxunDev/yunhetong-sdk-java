@@ -3,7 +3,13 @@ package secret;
 import java.util.Random;
 
 /**
- * Created by wuyiping on 16/2/27.
+ * <p>Title: RandomUtil</p>
+ * <p>Description: 一些乱七八糟的随机方法 </p>
+ * <p>Copyright: Copyright (c) 2016</p>
+ * <p>Company: www.yunhetong.com</p>
+ *
+ * @author wuyiping
+ * @version 0.0.1
  */
 final class RandomUtil {
     public static final String ALLCHAR = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -18,7 +24,7 @@ final class RandomUtil {
      * @return 随机字符串
      */
     public static String generateString(int length) {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         Random random = new Random();
         for (int i = 0; i < length; i++) {
             sb.append(ALLCHAR.charAt(random.nextInt(ALLCHAR.length())));
@@ -119,16 +125,5 @@ final class RandomUtil {
             result = result * 10 + param[i];
         }
         return result;
-    }
-
-    public static void main(String[] args) {
-        System.out.println("返回一个定长的随机字符串(只包含大小写字母、数字):" + generateString(10));
-        System.out.println("返回一个定长的随机纯字母字符串(只包含大小写字母):" + generateMixString(10));
-        System.out.println("返回一个定长的随机纯大写字母字符串(只包含大小写字母):" + generateLowerString(10));
-        System.out.println("返回一个定长的随机纯小写字母字符串(只包含大小写字母):" + generateUpperString(10));
-        System.out.println("生成一个定长的纯0字符串:" + generateZeroString(10));
-        System.out.println("根据数字生成一个定长的字符串，长度不够前面补0:" + toFixdLengthString(123, 10));
-        int[] in = { 1, 2, 3, 4, 5, 6, 7 };
-        System.out.println("每次生成的len位数都不相同:" + getNotSimple(in, 3));
     }
 }

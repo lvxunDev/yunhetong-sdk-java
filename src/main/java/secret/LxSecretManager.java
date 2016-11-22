@@ -1,6 +1,6 @@
 package secret;
 
-import com.yunhetong.sdk.util.exception.*;
+import exception.*;
 import org.json.JSONObject;
 
 import java.io.InputStream;
@@ -11,18 +11,18 @@ import java.io.InputStream;
 //                      88" . "88
 //                      (| -_- |)
 //                      0\  =  /0
-//                    ___/`---'\___
+//                    _/`---'\_
 //                  .' \\|     |// '.
 //                 / \\|||  :  |||// \
 //                / _||||| -:- |||||- \
 //               |   | \\\  -  /// |   |
 //               | \_|  ''\---/''  |_/ |
-//               \  .-\__  '-'  ___/-. /
-//             ___'. .'  /--.--\  `. .'___
-//          ."" '<  `.___\_<|>_/___.' >' "".
+//               \  .-\  '-'  _/-. /
+//             _'. .'  /--.--\  `. .'_
+//          ."" '<  `._\_<|>_/_.' >' "".
 //         | | :  `- \`.;`\ _ /`;.`/ - ` : | |
-//         \  \ `_.   \_ __\ /__ _/   .-` /  /
-//     =====`-.____`.___ \_____/___.-`___.-'=====
+//         \  \ `_.   \_ \ / _/   .-` /  /
+//     =====`-.`._ \_/_.-`_.-'=====
 //                       `=---='
 //
 //
@@ -35,68 +35,104 @@ import java.io.InputStream;
 
 
 /**
- * Created by wuyiping on 16/2/27.
+ * <p>Title: LxSecretManager</p>
+ * <p>Description: 云合同秘钥管理的相关方法 </p>
+ * <p>Copyright: Copyright (c) 2016</p>
+ * <p>Company: www.yunhetong.com</p>
+ *
+ * @author wuyiping
+ * @version 0.0.1
  */
-public final class LxSecretManager implements Cloneable{
+public final class LxSecretManager {
 
+    /**
+     * RSA 的相关方法
+     */
     private LxRSAHandler rsaHandler;
 
-    LxSecretManager() {
-        super();
+    /**
+     * 构造方法
+     * 主要是初始化了 RSA
+     *
+     * @param publicStream  公钥的文件流
+     * @param privateStream 私钥的文件流
+     * @throws LxKeyException
+     * @throws LxNonsupportException
+     */
+    public LxSecretManager(InputStream publicStream, InputStream privateStream) throws LxKeyException, LxNonsupportException {
         rsaHandler = new LxRSAHandler();
+        rsaHandler.initPublicKey4Stream(publicStream);
+        rsaHandler.initPrivateKey4Stream(privateStream);
     }
 
-    LxSecretManager(LxRSAHandler rsaHandler) {
-        this.rsaHandler = rsaHandler;
+    /**
+     * 加密字符串的方法
+     * 主要的过程是先生成 AES 的秘钥，然后用秘钥加密明文，在用 RSA 加密 AES 的秘钥
+     *
+     * @param json 要加密的字符串，主要是 json 格式
+     * @return 返回加密之后的密文和签名
+     * @throws LxNonsupportException
+     * @throws LxEncryptException
+     * @throws LxKeyException
+     * @throws LxSignatureException
+     */
+    public String encryptWithUTF8(String json) throws LxNonsupportException, LxEncryptException, LxKeyException, LxSignatureException {
+
+        LxAESHandler aes = new LxAESHandler();
+        String sessionKey = rsaHandler.encryptRSAWithUTF8(aes.toString());
+        String secret = aes.encryptWithUTF8(json);
+        JSONObject jsonObj = new JSONObject();
+        jsonObj.put("key", sessionKey);
+        jsonObj.put("content", secret);
+        jsonObj.put("sign", aes.encryptWithUTF8(rsaHandler.signWithUTF8(json)));
+        return jsonObj.toString();
     }
 
-    public LxSecretManager(InputStream __publicStream, InputStream __privateStream) throws LxKeyException, LxUnsupportException {
-        this();
-        rsaHandler.initPublicKey4Stream(__publicStream);
-        rsaHandler.initPrivateKey4Stream(__privateStream);
-    }
-    
-    public LxSecretManager clone(){
-        return new LxSecretManager(this.rsaHandler);
-    }
-
-    public String encryptWithUTF8(String __json) throws LxUnsupportException, LxEncrypteException, LxKeyException, LxSignatureException {
-
-        LxAESHandler __aes = new LxAESHandler();
-        String __sessionKey = rsaHandler.encryptRSAWithUTF8(__aes.toString());
-        String __secret = __aes.encryptWithUTF8(__json);
-        JSONObject __jsonObj = new JSONObject();
-        __jsonObj.put("key", __sessionKey);
-        __jsonObj.put("content", __secret);
-        __jsonObj.put("sign", __aes.encryptWithUTF8(rsaHandler.signWithUTF8(__json)));
-        return __jsonObj.toString();
-    }
-
-    public String decryptWithUTF8(String __json) throws LxDecryptException, LxUnsupportException, LxKeyException, LxVerifyException {
+    /**
+     * 解密字符串的方法
+     * 主要过程是先用 RSA 解密 AES 的秘钥，然后在用AES 的秘钥去解出密文
+     *
+     * @param json 要解密的字符串
+     * @return 返回解密之后的内容
+     * @throws LxDecryptException
+     * @throws LxNonsupportException
+     * @throws LxKeyException
+     * @throws LxVerifyException
+     */
+    public String decryptWithUTF8(String json) throws LxDecryptException, LxNonsupportException, LxKeyException, LxVerifyException {
         try {
-            JSONObject __jsonObject = new JSONObject(__json);
-            String __sessionKey = __jsonObject.getString("key");
-            __sessionKey = rsaHandler.decryptRSAWithUTF8(__sessionKey);
-            LxAESHandler __aes = new LxAESHandler(__sessionKey);
-            String __content = __aes.decryptWithUTF8(__jsonObject.getString("content"));
-            String __sign = __aes.decryptWithUTF8(__jsonObject.getString("sign"));
-            if(rsaHandler.verifyWithUTF8(__content, __sign)){
-                return __content;
-            }else{
+            JSONObject jsonObject = new JSONObject(json);
+            String sessionKey = jsonObject.getString("key");
+            sessionKey = rsaHandler.decryptRSAWithUTF8(sessionKey);
+            LxAESHandler aes = new LxAESHandler(sessionKey);
+            String content = aes.decryptWithUTF8(jsonObject.getString("content"));
+            String sign = aes.decryptWithUTF8(jsonObject.getString("sign"));
+            if (rsaHandler.verifyWithUTF8(content, sign)) {
+                return content;
+            } else {
                 throw new LxVerifyException("sign's validation is error when decrypted");
             }
 
         } catch (org.json.JSONException e) {
-            return __json;
+            return json;
         }
     }
 
-    public String signWithUTF8(String __content) throws LxUnsupportException, LxSignatureException, LxKeyException {
-        return this.rsaHandler.signWithUTF8(__content);
+    /**
+     * 对内容进行签名
+     *
+     * @param content 要签名的内容
+     * @return 返回签名之后的内容
+     * @throws LxNonsupportException
+     * @throws LxSignatureException
+     * @throws LxKeyException
+     */
+    public String signWithUTF8(String content) throws LxNonsupportException, LxSignatureException, LxKeyException {
+        return this.rsaHandler.signWithUTF8(content);
     }
 
-    public boolean verifyWithUTF8(String __content, String __sign) throws LxVerifyException, LxKeyException, LxUnsupportException {
-        return this.rsaHandler.verifyWithUTF8(__content, __sign);
+    public boolean verifyWithUTF8(String content, String sign) throws LxVerifyException, LxKeyException, LxNonsupportException {
+        return this.rsaHandler.verifyWithUTF8(content, sign);
     }
 
 }
