@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>7</version>
+    </parent>
+
+    <groupId>com.yunhetong</groupId>
+    <artifactId>sdk</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <name>yunhetong-java-sdk</name>
+    <description>this is yunhetong java sdk</description>
+    <url>http://sdk.yunhetong.com/</url>
+    <organization>
+        <name>lvxun Dev</name>
+        <url>https://github.com/lvxunDev</url>
+    </organization>
+    <properties>
+        <file_encoding>UTF-8</file_encoding>
+    </properties>
+    <licenses>
+        <license>
+            <name>GNU LESSER GENERAL PUBLIC LICENSE</name>
+            <url>https://github.com/lvxunDev/yunhetong-sdk-java/blob/master/LICENSE.txt</url>
+            <distribution>repo</distribution>
+            <comments>A business-friendly SDK license</comments>
+        </license>
+    </licenses>
+    <scm>
+        <!--SCM的URL,该URL描述了版本库和如何连接到版本库。欲知详情，请看SCMs提供的URL格式和列表。该连接只读。-->
+        <connection>
+            scm:git@github.com:lvxunDev/yunhetong-sdk-java.git
+        </connection>
+        <!--给开发者使用的，类似connection元素。即该连接不仅仅只读-->
+        <developerConnection>
+            scm:svn:http://svn.baidu.com/banseon/maven/banseon/dao-trunk
+        </developerConnection>
+        <!--当前代码的标签，在开发阶段默认为HEAD-->
+        <tag/>
+        <!--指向项目的可浏览SCM库（例如ViewVC或者Fisheye）的URL。-->
+        <url>https://github.com/lvxunDev/yunhetong-sdk-java</url>
+    </scm>
+    <developers>
+        <developer>
+            <id>iamgnipiyuw</id>
+            <name>iamgnipiyuw</name>
+            <email>wuyiping@yunhetong.net</email>
+            <roles>
+                <role>dev</role>
+            </roles>
+        </developer>
+        <developer>
+            <id>Sean Wu</id>
+            <name>Sean Wu</name>
+            <email>seanwu@yunhetong.net</email>
+            <roles>
+                <role>yan zhi dan dang</role>
+            </roles>
+        </developer>
+        <developer>
+            <id>jinGH</id>
+            <name>jinGH</name>
+            <email>jinguanghui@yunhetong.net</email>
+            <roles>
+                <role>dev</role>
+            </roles>
+        </developer>
+    </developers>
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-dbcp2</artifactId>
+            <version>2.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.5.2</version>
+        </dependency>
+        <!-- json 相关包 -->
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20160810</version>
+        </dependency>
+    </dependencies>
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <id>attach-sources</id>
+                            <goals>
+                                <goal>jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <configuration>
+                        <charset>${file_encoding}</charset>
+                        <encoding>${file_encoding}</encoding>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>attach-javadocs</id>
+                            <goals>
+                                <goal>jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+    <profiles>
+        <profile>
+            <id>release-sign-artifacts</id>
+            <activation>
+                <property>
+                    <name>performRelease</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.1</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+</project>
