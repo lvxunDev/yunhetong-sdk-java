@@ -214,16 +214,10 @@ public class LxAESHandler implements Serializable {
      */
     @Deprecated
     void refreshKey() throws LxNonsupportException {
-        KeyGenerator keyGenerator = null;
-        try {
-            keyGenerator = KeyGenerator.getInstance("AES");
-            keyGenerator.init(KEY_LENGTH);
-            this.secretKey = keyGenerator.generateKey();
-            this.IV = RandomUtil.generateString(KEY_LENGTH / 8).getBytes();
-            this.birthtime = new Date().getTime();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-            throw new LxNonsupportException(e.getMessage());
-        }
+    /*  这里本来用的是 KeyGenerator.getInstance("AES").init(KEY_LENGTH); 的，但是在.Net 那边会迷之报错，改成这样就不报错了，等以后的大牛解决，现在就先这样吧*/
+        this.secretKey = new SecretKeySpec(RandomUtil.generateString(16).getBytes(), "AES");
+        this.IV = RandomUtil.generateString(KEY_LENGTH / 8).getBytes();
+        this.birthtime = new Date().getTime();
+
     }
 }
