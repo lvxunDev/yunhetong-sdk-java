@@ -34,8 +34,6 @@ public class HttpUtil {
 
     private static final Logger log = Logger.getLogger(String.valueOf(HttpUtil.class));
 
-    private static String HOST = "http://localhost:8080";
-
     public static Map post(String url, Map<String, String> params) throws Exception {
 
         String body = null;
@@ -93,6 +91,7 @@ public class HttpUtil {
 
     private static CloseableHttpResponse sendRequest(CloseableHttpClient httpclient, HttpUriRequest httpost) throws Exception {
         CloseableHttpResponse response = null;
+        httpost.addHeader("sdkType","javaSDK");
         response = httpclient.execute(httpost);
         return response;
     }
