@@ -14,7 +14,7 @@ package bean;
 public class LxContractActor extends LxUser {
 
     /**
-     * 是否自动签署：1是；0或空不是
+     * 是否自动签署：true 是；false或空不是
      */
     private Boolean autoSign;
 
