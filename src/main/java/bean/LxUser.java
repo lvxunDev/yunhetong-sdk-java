@@ -1,30 +1,67 @@
 package bean;
 
+
 /**
- * Created by wuyiping on 16/3/2.
+ * <p>Title: LxUser</p>
+ * <p>Description: 用户类</p>
+ * <p>用户的一些基本信息</p>
+ * <p>Copyright: Copyright (c) 2016</p>
+ * <p>Company: www.yunhetong.com</p>
+ *
+ * @author wuyiping
+ * @version 0.0.1
  */
 public class LxUser {
 
-    public String userId;
+    /**
+     * 用户在第三方应用平台的唯一标识，由平台各自管理，不能为空，不能大于 200 个字符
+     */
+    public String appUserId;
+    /**
+     * 用户的手机号码
+     */
     public String phone;
+    /**
+     * 用户类型
+     *
+     * @see LxUser.UserType
+     */
     public UserType userType;
+    /**
+     * 用户名，用户实名认证时的用户名，小于 50 个字符
+     */
     public String userName;
+    /**
+     * 用户实名认证类型
+     *
+     * @see LxUser.CertifyType
+     */
     public CertifyType certifyType;
+    /**
+     * 用户实名认证时候的证件号码，可以是对应的身份证、营业执照、组织机构代码证或者其他证件号码，原则上不能大于 50 个字符
+     */
     public String certifyNumber;
 
+    /**
+     * 一个空的构造方法，可能并没有什么用
+     */
     public LxUser() {
     }
 
     /**
-     * @param userId
-     * @param phone
-     * @param userType
-     * @param userName
-     * @param certifyType
-     * @param certifyNumber
+     * 正经处使用用户的一个方法
+     *
+     * @param appUserId     用户在你们平台的 id
+     * @param phone         用户的手机号
+     * @param userType      用户类型
+     * @param userName      用户名
+     * @param certifyType   实名认证类型
+     * @param certifyNumber 实名认证号码
+     * @see LxUser.UserType
+     * @see LxUser.CertifyType
      */
-    public LxUser(String userId, String phone, UserType userType, String userName, CertifyType certifyType, String certifyNumber) {
-        this.userId = userId;
+    public LxUser(String appUserId, String phone, UserType userType, String userName, CertifyType certifyType, String certifyNumber) {
+        this.appUserId = appUserId;
         this.phone = phone;
         this.userType = userType;
         this.userName = userName;
@@ -32,6 +69,10 @@ public class LxUser {
         this.certifyNumber = certifyNumber;
     }
 
+    /**
+     * 用户类型
+     * 1个人2企业
+     */
     public enum UserType {
 
         USER("普通用户", 1), Enterprise("企业用户", 2);

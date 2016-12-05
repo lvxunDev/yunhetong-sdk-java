@@ -11,7 +11,7 @@ import java.util.LinkedHashMap;
  * @author wuyiping
  * @version 0.0.1
  */
-public class LxContract implements Cloneable{
+public class LxContract implements Cloneable {
 
     /**
      * 合同标题
@@ -39,10 +39,11 @@ public class LxContract implements Cloneable{
 
     /**
      * 带有合同相关参数和构造方法
-     * @param title   合同标题
+     *
+     * @param title         合同标题
      * @param defContractNo 自定义合同编号
-     * @param templateId 合同模板id
-     * @param params 合同参数列表
+     * @param templateId    合同模板id
+     * @param params        合同参数列表
      */
     public LxContract(String title, String defContractNo, String templateId, LinkedHashMap<String, String> params) {
         this.title = title;

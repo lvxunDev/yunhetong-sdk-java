@@ -91,7 +91,7 @@ public class HttpUtil {
 
     private static CloseableHttpResponse sendRequest(CloseableHttpClient httpclient, HttpUriRequest httpost) throws Exception {
         CloseableHttpResponse response = null;
-        httpost.addHeader("sdkType","javaSDK");
+        httpost.addHeader("sdkType", "javaSDK");
         response = httpclient.execute(httpost);
         return response;
     }
