@@ -12,7 +12,7 @@
 
     <groupId>com.yunhetong</groupId>
     <artifactId>sdk</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1-RELEASE</version>
     <packaging>jar</packaging>
 
     <name>yunhetong-java-sdk</name>
@@ -34,17 +34,13 @@
         </license>
     </licenses>
     <scm>
-        <!--SCM的URL,该URL描述了版本库和如何连接到版本库。欲知详情，请看SCMs提供的URL格式和列表。该连接只读。-->
         <connection>
             scm:git@github.com:lvxunDev/yunhetong-sdk-java.git
         </connection>
-        <!--给开发者使用的，类似connection元素。即该连接不仅仅只读-->
         <developerConnection>
-            scm:svn:http://svn.baidu.com/banseon/maven/banseon/dao-trunk
+            scm:git@github.com:lvxunDev/yunhetong-sdk-java
         </developerConnection>
-        <!--当前代码的标签，在开发阶段默认为HEAD-->
         <tag/>
-        <!--指向项目的可浏览SCM库（例如ViewVC或者Fisheye）的URL。-->
         <url>https://github.com/lvxunDev/yunhetong-sdk-java</url>
     </scm>
     <developers>
@@ -73,6 +69,16 @@
             </roles>
         </developer>
     </developers>
+    <distributionManagement>
+        <snapshotRepository>
+            <id>sonatype</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>sonatype</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
     <dependencies>
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -92,38 +98,32 @@
         </dependency>
     </dependencies>
     <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-source-plugin</artifactId>
-                    <executions>
-                        <execution>
-                            <id>attach-sources</id>
-                            <goals>
-                                <goal>jar</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-javadoc-plugin</artifactId>
-                    <configuration>
-                        <charset>${file_encoding}</charset>
-                        <encoding>${file_encoding}</encoding>
-                    </configuration>
-                    <executions>
-                        <execution>
-                            <id>attach-javadocs</id>
-                            <goals>
-                                <goal>jar</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
-            </plugins>
-        </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
     </build>
     <profiles>
         <profile>
