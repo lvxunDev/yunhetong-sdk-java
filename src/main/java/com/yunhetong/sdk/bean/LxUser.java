@@ -76,7 +76,7 @@ public class LxUser {
      */
     public enum UserType {
 
-        USER("普通用户", 1), Enterprise("企业用户", 2);
+        USER("普通用户", 1), COMPANY("企业用户", 2);
 
         private String name;
         private int value;
@@ -88,7 +88,7 @@ public class LxUser {
 
         public static UserType get(int value) {
             if (value == 1) return USER;
-            if (value == 2) return Enterprise;
+            if (value == 2) return COMPANY;
             return USER;
         }
 
@@ -102,21 +102,21 @@ public class LxUser {
      * 证件类型：1身份证,2护照,3军官证,4营业执照,5组织机构代码证,6三证合一的那个证
      */
     public enum CertifyType {
-        TYPE_1("身份证", 1), TYPE_2("护照", 2),
-        TYPE_3("军官证", 3), TYPE_4("营业执照", 4),
-        TYPE_5("组织机构代码证", 5), TYPE_6("三证合一", 6);
+        ID_CARD("身份证", 1), PASSPORT("护照", 2),
+        OFFICIAL_CARD("军官证", 3), BUSINESS_LICENCE("营业执照", 4),
+        ORGANIZATION_CODE("组织机构代码证", 5), TYPE_6("三证合一", 6);
 
         private String name;
         private int value;
 
         public static CertifyType get(int value) {
-            if (value == 1) return TYPE_1;
-            if (value == 2) return TYPE_2;
-            if (value == 3) return TYPE_3;
-            if (value == 4) return TYPE_4;
-            if (value == 5) return TYPE_5;
+            if (value == 1) return ID_CARD;
+            if (value == 2) return PASSPORT;
+            if (value == 3) return OFFICIAL_CARD;
+            if (value == 4) return BUSINESS_LICENCE;
+            if (value == 5) return ORGANIZATION_CODE;
             if (value == 6) return TYPE_6;
-            return TYPE_1;
+            return ID_CARD;
         }
 
         private CertifyType(String name, int value) {
