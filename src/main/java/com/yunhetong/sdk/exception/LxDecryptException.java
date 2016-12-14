@@ -1,4 +1,4 @@
-package exception;
+package com.yunhetong.sdk.exception;
 
 /**
  * <p>Title: LxDecryptException</p>

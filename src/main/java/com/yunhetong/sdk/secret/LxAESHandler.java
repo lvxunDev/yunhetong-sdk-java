@@ -1,6 +1,9 @@
-package secret;
+package com.yunhetong.sdk.secret;
 
-import exception.*;
+import com.yunhetong.sdk.exception.LxDecryptException;
+import com.yunhetong.sdk.exception.LxEncryptException;
+import com.yunhetong.sdk.exception.LxKeyException;
+import com.yunhetong.sdk.exception.LxNonsupportException;
 import org.json.JSONObject;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;

@@ -1,6 +1,6 @@
-package secret;
+package com.yunhetong.sdk.secret;
 
-import exception.*;
+import com.yunhetong.sdk.exception.*;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 

@@ -1,4 +1,4 @@
-package util;
+package com.yunhetong.sdk.util;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -18,10 +18,8 @@ import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.*;
-import java.util.logging.Logger;
 
 /**
  * <p>Title: LxHttpUtil</p>
@@ -53,7 +51,7 @@ public class LxHttpUtil {
     public static String post(String url, String appid, String secret) {
         Map<String, String> params = new HashMap<String, String>();
         params.put("appid", appid);
-        params.put("secret", secret);
+        params.put("com/yunhetong/sdk/bean/secret", secret);
         return post(HOST + url, params);
     }
 
