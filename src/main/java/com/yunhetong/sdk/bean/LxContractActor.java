@@ -51,15 +51,17 @@ public class LxContractActor extends LxUser {
         return autoSign;
     }
 
-    public void setAutoSign(Boolean autoSign) {
+    public LxContractActor setAutoSign(Boolean autoSign) {
         this.autoSign = autoSign;
+        return this;
     }
 
     public String getLocationName() {
         return locationName;
     }
 
-    public void setLocationName(String locationName) {
+    public LxContractActor setLocationName(String locationName) {
         this.locationName = locationName;
+        return this;
     }
 }

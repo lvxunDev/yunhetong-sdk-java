@@ -16,31 +16,32 @@ public class LxUser {
     /**
      * 用户在第三方应用平台的唯一标识，由平台各自管理，不能为空，不能大于 200 个字符
      */
-    public String appUserId;
+    private String appUserId;
+
     /**
      * 用户的手机号码
      */
-    public String phone;
+    private String phone;
     /**
      * 用户类型
      *
      * @see LxUser.UserType
      */
-    public UserType userType;
+    private UserType userType;
     /**
      * 用户名，用户实名认证时的用户名，小于 50 个字符
      */
-    public String userName;
+    private String userName;
     /**
      * 用户实名认证类型
      *
      * @see LxUser.CertifyType
      */
-    public CertifyType certifyType;
+    private CertifyType certifyType;
     /**
      * 用户实名认证时候的证件号码，可以是对应的身份证、营业执照、组织机构代码证或者其他证件号码，原则上不能大于 50 个字符
      */
-    public String certifyNumber;
+    private String certifyNumber;
 
     /**
      * 一个空的构造方法，可能并没有什么用
@@ -126,5 +127,60 @@ public class LxUser {
         public int getValue() {
             return value;
         }
+    }
+
+
+    public String getAppUserId() {
+        return appUserId;
+    }
+
+    public LxUser setAppUserId(String appUserId) {
+        this.appUserId = appUserId;
+        return this;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public LxUser setPhone(String phone) {
+        this.phone = phone;
+        return this;
+    }
+
+    public UserType getUserType() {
+        return userType;
+    }
+
+    public LxUser setUserType(UserType userType) {
+        this.userType = userType;
+        return this;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public LxUser setUserName(String userName) {
+        this.userName = userName;
+        return this;
+    }
+
+    public CertifyType getCertifyType() {
+        return certifyType;
+    }
+
+    public LxUser setCertifyType(CertifyType certifyType) {
+        this.certifyType = certifyType;
+        return this;
+    }
+
+    public String getCertifyNumber() {
+        return certifyNumber;
+    }
+
+    public LxUser setCertifyNumber(String certifyNumber) {
+        this.certifyNumber = certifyNumber;
+        return this;
     }
 }
