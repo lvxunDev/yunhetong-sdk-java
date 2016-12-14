@@ -1,4 +1,4 @@
-package bean;
+package com.yunhetong.sdk.bean;
 
 
 /**
@@ -38,8 +38,8 @@ public class LxContractActor extends LxUser {
      * @param certifyNumber 具体的实名认证证件号码
      * @param autoSign      是否自动签名
      * @param locationName  签名位置，在模板那边设置的
-     * @see bean.LxUser.UserType
-     * @see bean.LxUser.CertifyType
+     * @see UserType
+     * @see CertifyType
      */
     public LxContractActor(String appUserId, String phone, UserType userType, String userName, CertifyType certifyType, String certifyNumber, Boolean autoSign, String locationName) {
         super(appUserId, phone, userType, userName, certifyType, certifyNumber);

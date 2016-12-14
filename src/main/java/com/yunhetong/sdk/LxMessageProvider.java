@@ -1,9 +1,11 @@
-package main;
+package com.yunhetong.sdk;
 
 
-import bean.LxContract;
-import bean.LxContractActor;
-import bean.LxUser;
+import com.yunhetong.sdk.bean.LxContract;
+import com.yunhetong.sdk.bean.LxContractActor;
+import com.yunhetong.sdk.bean.LxContract;
+import com.yunhetong.sdk.bean.LxContractActor;
+import com.yunhetong.sdk.bean.LxUser;
 import org.json.JSONArray;
 import org.json.JSONObject;
 

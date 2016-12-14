@@ -1,4 +1,4 @@
-package bean;
+package com.yunhetong.sdk.bean;
 
 import java.util.LinkedHashMap;
 
