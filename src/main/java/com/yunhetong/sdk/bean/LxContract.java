@@ -16,20 +16,20 @@ public class LxContract implements Cloneable {
     /**
      * 合同标题
      */
-    private String title;
+    protected String title;
     /**
      * 自定义合同编号
      */
-    private String defContractNo;
+    protected String defContractNo;
 
     /**
      * 合同模板id
      */
-    private String templateId;
+    protected String templateId;
     /**
      * 参数列表
      */
-    private LinkedHashMap<String, String> params;
+    protected LinkedHashMap<String, String> params;
 
     /**
      * 放个构造方法意思一下
