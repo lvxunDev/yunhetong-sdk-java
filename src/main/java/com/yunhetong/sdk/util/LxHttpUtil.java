@@ -51,7 +51,7 @@ public class LxHttpUtil {
     public static String post(String url, String appid, String secret) {
         Map<String, String> params = new HashMap<String, String>();
         params.put("appid", appid);
-        params.put("com/yunhetong/sdk/bean/secret", secret);
+        params.put("secret", secret);
         return post(HOST + url, params);
     }
 

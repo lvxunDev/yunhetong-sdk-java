@@ -100,7 +100,6 @@ public final class LxSDKManager {
         String source = LxMessageProvider.msgGetToken(this.appid, user);
         String secret = secretManager.encryptWithUTF8(source);
         String response = LxHttpUtil.post("/third/tokenWithUser", this.appid, secret);
-        System.out.println(response);
         return secretManager.decryptWithUTF8(response);
     }
 
