@@ -47,6 +47,19 @@ public class LxContractActor extends LxUser {
         this.locationName = locationName;
     }
 
+    /**
+     * 通过原有的 LxUser 来创建合同参与方
+     *
+     * @param lxUser       lxUser
+     * @param autoSign     是否自动签名
+     * @param locationName 签名位置，在模板那边设置的
+     */
+    public LxContractActor(LxUser lxUser, Boolean autoSign, String locationName) {
+        super(lxUser.getAppUserId(), lxUser.getPhone(), lxUser.getUserType(), lxUser.getUserName(), lxUser.getCertifyType(), lxUser.getCertifyNumber());
+        this.autoSign = autoSign;
+        this.locationName = locationName;
+    }
+
     public Boolean getAutoSign() {
         return autoSign;
     }

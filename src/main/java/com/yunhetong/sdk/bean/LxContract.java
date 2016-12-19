@@ -84,7 +84,7 @@ public class LxContract{
         return params;
     }
 
-    public LxContract setParams(LinkedHashMap<String, String> params) {
+    public LxContract setParams(HashMap<String, String> params) {
         this.params = params;
         return this;
     }
