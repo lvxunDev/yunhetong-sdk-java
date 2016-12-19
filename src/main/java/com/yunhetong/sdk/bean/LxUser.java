@@ -16,32 +16,32 @@ public class LxUser {
     /**
      * 用户在第三方应用平台的唯一标识，由平台各自管理，不能为空，不能大于 200 个字符
      */
-    private String appUserId;
+    protected String appUserId;
 
     /**
      * 用户的手机号码
      */
-    private String phone;
+    protected String phone;
     /**
      * 用户类型
      *
      * @see LxUser.UserType
      */
-    private UserType userType;
+    protected UserType userType;
     /**
      * 用户名，用户实名认证时的用户名，小于 50 个字符
      */
-    private String userName;
+    protected String userName;
     /**
      * 用户实名认证类型
      *
      * @see LxUser.CertifyType
      */
-    private CertifyType certifyType;
+    protected CertifyType certifyType;
     /**
      * 用户实名认证时候的证件号码，可以是对应的身份证、营业执照、组织机构代码证或者其他证件号码，原则上不能大于 50 个字符
      */
-    private String certifyNumber;
+    protected String certifyNumber;
 
     /**
      * 一个空的构造方法，可能并没有什么用

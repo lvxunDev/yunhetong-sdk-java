@@ -1,9 +1,6 @@
 package com.yunhetong.sdk.util;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.ParseException;
+import org.apache.http.*;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -33,7 +30,11 @@ import java.util.*;
 public class LxHttpUtil {
 
     private static final String HOST = "http://sdk.yunhetong.com/sdk";
+    private static Header[] RESPONSE_HTTPINFO = null ;
 
+    public static Header[] getResponseHttpinfo() {
+        return RESPONSE_HTTPINFO;
+    }
 
     public static String post(String url, Map<String, String> params) {
         String body = null;

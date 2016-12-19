@@ -26,7 +26,7 @@ public class LxContractActor extends LxUser {
     /**
      * 默认的空够着方法，可能没什么用
      */
-    private LxContractActor() {
+    public LxContractActor() {
     }
 
     /**
@@ -58,6 +58,22 @@ public class LxContractActor extends LxUser {
         super(lxUser.getAppUserId(), lxUser.getPhone(), lxUser.getUserType(), lxUser.getUserName(), lxUser.getCertifyType(), lxUser.getCertifyNumber());
         this.autoSign = autoSign;
         this.locationName = locationName;
+    }
+
+    /**
+     * 设置参与方跟用户相关的一些字段
+     * @param lxUser  LxUser 类
+     * @return  返回当前 LxContractActor 类
+     * @see LxUser
+     */
+    public LxContractActor setUser(LxUser lxUser) {
+        this.appUserId = lxUser.getAppUserId();
+        this.phone = lxUser.getPhone();
+        this.userType = lxUser.getUserType();
+        this.userName = lxUser.getUserName();
+        this.certifyType = lxUser.getCertifyType();
+        this.certifyNumber = lxUser.getCertifyNumber();
+        return this;
     }
 
     public Boolean getAutoSign() {
