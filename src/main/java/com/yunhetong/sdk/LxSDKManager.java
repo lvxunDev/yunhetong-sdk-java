@@ -7,11 +7,15 @@ import com.yunhetong.sdk.bean.LxUser;
 import com.yunhetong.sdk.exception.*;
 import com.yunhetong.sdk.secret.LxSecretManager;
 import com.yunhetong.sdk.util.LxHttpUtil;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -143,6 +147,19 @@ public final class LxSDKManager {
         String secret = secretManager.encryptWithUTF8(source);
         String response = LxHttpUtil.post("/third/autoContract", this.appid, secret);
         return secretManager.decryptWithUTF8(response);
+    }
+
+    public String downloadContract(long contractId) throws LxEncryptException, LxKeyException, LxNonsupportException, LxDecryptException, LxSignatureException, LxVerifyException {
+
+        JSONObject json = new JSONObject();
+        json.put("contractId",contractId);
+        json.put("timestamp", new Date().getTime());
+        String source = json.toString();
+        String secret = secretManager.encryptWithUTF8(source);
+        String response = LxHttpUtil.post("/third/download", this.appid, secret);
+        Map<String ,Object> s = new HashMap<String, Object>(2);
+
+        return null;
     }
 
     /**

@@ -1,5 +1,6 @@
 package com.yunhetong.sdk.bean;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 /**
@@ -11,7 +12,7 @@ import java.util.LinkedHashMap;
  * @author wuyiping
  * @version 0.0.1
  */
-public class LxContract implements Cloneable {
+public class LxContract{
 
     /**
      * 合同标题
@@ -29,7 +30,7 @@ public class LxContract implements Cloneable {
     /**
      * 参数列表
      */
-    protected LinkedHashMap<String, String> params;
+    protected HashMap<String, String> params;
 
     /**
      * 放个构造方法意思一下
@@ -79,7 +80,7 @@ public class LxContract implements Cloneable {
         return this;
     }
 
-    public LinkedHashMap<String, String> getParams() {
+    public HashMap<String, String> getParams() {
         return params;
     }
 
