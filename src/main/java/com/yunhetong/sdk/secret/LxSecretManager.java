@@ -1,6 +1,6 @@
-package secret;
+package com.yunhetong.sdk.secret;
 
-import exception.*;
+import com.yunhetong.sdk.exception.*;
 import org.json.JSONObject;
 
 import java.io.InputStream;

@@ -1,9 +1,11 @@
-package main;
+package com.yunhetong.sdk;
 
 
-import bean.LxContract;
-import bean.LxContractActor;
-import bean.LxUser;
+import com.yunhetong.sdk.bean.LxContract;
+import com.yunhetong.sdk.bean.LxContractActor;
+import com.yunhetong.sdk.bean.LxContract;
+import com.yunhetong.sdk.bean.LxContractActor;
+import com.yunhetong.sdk.bean.LxUser;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -65,12 +67,12 @@ final class LxMessageProvider {
     private static JSONObject json4User(String appid, LxUser user) {
         JSONObject json = new JSONObject();
         json.put("appId", appid);
-        json.put("appUserId", user.appUserId);
-        json.put("userType", user.userType.getValue());
-        json.put("cellNum", user.phone);
-        json.put("userName", user.userName);
-        json.put("certifyType", user.certifyType.getValue());
-        json.put("certifyNumber", user.certifyNumber);
+        json.put("appUserId", user.getAppUserId());
+        json.put("userType", user.getUserType().getValue());
+        json.put("cellNum", user.getPhone());
+        json.put("userName", user.getUserName());
+        json.put("certifyType", user.getCertifyType().getValue());
+        json.put("certifyNumber", user.getCertifyNumber());
         return json;
     }
 
@@ -89,12 +91,12 @@ final class LxMessageProvider {
         JSONObject jsonVo = new JSONObject();
 
         jsonVo.put("appId", appid);
-        jsonVo.put("title", contract.title);
-        jsonVo.put("defContractNo", contract.defContractNo);
+        jsonVo.put("title", contract.getTitle());
+        jsonVo.put("defContractNo", contract.getDefContractNo());
 
         // -------------  占位符信息
-        jsonVo.put("templateId", contract.templateId);
-        jsonVo.put("params", contract.params);
+        jsonVo.put("templateId", contract.getTemplateId());
+        jsonVo.put("params", contract.getParams());
 
         // -------------  签约方方信息
         JSONArray array = new JSONArray();

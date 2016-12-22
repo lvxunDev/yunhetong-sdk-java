@@ -1,17 +1,21 @@
-package main;
+package com.yunhetong.sdk;
 
 
-import bean.LxContract;
-import bean.LxContractActor;
-import bean.LxUser;
-import exception.*;
-import secret.LxSecretManager;
-import util.LxHttpUtil;
+import com.yunhetong.sdk.bean.LxContract;
+import com.yunhetong.sdk.bean.LxContractActor;
+import com.yunhetong.sdk.bean.LxUser;
+import com.yunhetong.sdk.exception.*;
+import com.yunhetong.sdk.secret.LxSecretManager;
+import com.yunhetong.sdk.util.LxHttpUtil;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -96,11 +100,28 @@ public final class LxSDKManager {
      * @throws LxSignatureException
      * @throws LxVerifyException
      */
-    public String syncGetToken(LxUser user) throws IOException, LxEncryptException, LxKeyException, LxNonsupportException, LxDecryptException, LxSignatureException, LxVerifyException {
+    public String getToken(LxUser user) throws IOException, LxEncryptException, LxKeyException, LxNonsupportException, LxDecryptException, LxSignatureException, LxVerifyException {
         String source = LxMessageProvider.msgGetToken(this.appid, user);
         String secret = secretManager.encryptWithUTF8(source);
         String response = LxHttpUtil.post("/third/tokenWithUser", this.appid, secret);
-        System.out.println(response);
+        return secretManager.decryptWithUTF8(response);
+    }
+
+    /**
+     * 更新用户信息
+     * @param user  要更新的用户信息，以 appUserId 为唯一标识，只能更新用户的电话号码和用户名
+     * @return
+     * @throws LxEncryptException
+     * @throws LxKeyException
+     * @throws LxNonsupportException
+     * @throws LxDecryptException
+     * @throws LxSignatureException
+     * @throws LxVerifyException
+     */
+    public String updateUserInfo(LxUser user) throws LxEncryptException, LxKeyException, LxNonsupportException, LxDecryptException, LxSignatureException, LxVerifyException {
+        String source = LxMessageProvider.msgGetToken(this.appid, user);
+        String secret = secretManager.encryptWithUTF8(source);
+        String response = LxHttpUtil.post("/third/userUpdate", this.appid, secret);
         return secretManager.decryptWithUTF8(response);
     }
 
@@ -119,7 +140,7 @@ public final class LxSDKManager {
      * @throws LxSignatureException
      * @throws LxVerifyException
      */
-    public String syncGetTokenWithContract(LxUser user, final LxContract contract, final LxContractActor... actors) throws IOException, LxEncryptException, LxKeyException, LxNonsupportException, LxDecryptException, LxSignatureException, LxVerifyException {
+    public String getTokenWithContract(LxUser user, final LxContract contract, final LxContractActor... actors) throws IOException, LxEncryptException, LxKeyException, LxNonsupportException, LxDecryptException, LxSignatureException, LxVerifyException {
         String source = LxMessageProvider.msgGetTokenWithContract(this.appid, user, contract, actors);
         String secret = secretManager.encryptWithUTF8(source);
         String response = LxHttpUtil.post("/third/tokenWithContract", this.appid, secret);
@@ -139,11 +160,36 @@ public final class LxSDKManager {
      * @throws LxSignatureException
      * @throws LxVerifyException
      */
-    public String syncCreateContract(LxContract contract, LxContractActor... actors) throws LxEncryptException, LxKeyException, LxNonsupportException, LxDecryptException, LxSignatureException, LxVerifyException {
+    public String createContract(LxContract contract, LxContractActor... actors) throws LxEncryptException, LxKeyException, LxNonsupportException, LxDecryptException, LxSignatureException, LxVerifyException {
         String source = LxMessageProvider.msgCreateContract(this.appid, contract, actors);
         String secret = secretManager.encryptWithUTF8(source);
         String response = LxHttpUtil.post("/third/autoContract", this.appid, secret);
         return secretManager.decryptWithUTF8(response);
+    }
+
+    /**
+     * 下载合同的方法
+     *
+     * @param contractId 要下载的合同的合同 Id
+     * @return  失败的话返回错误的 json 字符串，成功的话返回合同的 zip 流
+     * @throws LxEncryptException
+     * @throws LxKeyException
+     * @throws LxNonsupportException
+     * @throws LxDecryptException
+     * @throws LxSignatureException
+     * @throws LxVerifyException
+     */
+    public Map<String ,Object> downloadContract(long contractId) throws LxEncryptException, LxKeyException, LxNonsupportException, LxDecryptException, LxSignatureException, LxVerifyException, IOException {
+        JSONObject json = new JSONObject();
+        json.put("contractId",contractId);
+        json.put("timestamp", new Date().getTime());
+        String source = json.toString();
+        String secret = secretManager.encryptWithUTF8(source);
+        byte[] response = LxHttpUtil.download("/third/download", this.appid, secret);
+        Map<String ,Object> retMap = new HashMap<String, Object>(2);
+        retMap.put("success",LxHttpUtil.getResponseContentType().equals("application/octet-stream;charset=UTF-8"));
+        retMap.put("body",response);
+        return retMap;
     }
 
     /**
@@ -158,7 +204,7 @@ public final class LxSDKManager {
      * @throws LxSignatureException
      * @throws LxVerifyException
      */
-    public String syncInvalidContract(long contractId) throws LxEncryptException, LxKeyException, LxNonsupportException, LxDecryptException, LxSignatureException, LxVerifyException {
+    public String invalidContract(long contractId) throws LxEncryptException, LxKeyException, LxNonsupportException, LxDecryptException, LxSignatureException, LxVerifyException {
         String secret = secretManager.encryptWithUTF8(LxMessageProvider.msgInvalidContract(this.appid, contractId));
         String response = LxHttpUtil.post("/third/invalidContract", this.appid, secret);
         return secretManager.decryptWithUTF8(response);
@@ -176,7 +222,7 @@ public final class LxSDKManager {
      * @throws LxSignatureException
      * @throws LxVerifyException
      */
-    public String syncQueryContracts(int pageNum, int pageSize) throws LxEncryptException, LxKeyException, LxNonsupportException, LxDecryptException, LxSignatureException, LxVerifyException {
+    public String queryContracts(int pageNum, int pageSize) throws LxEncryptException, LxKeyException, LxNonsupportException, LxDecryptException, LxSignatureException, LxVerifyException {
         String secret = secretManager.encryptWithUTF8(LxMessageProvider.msgQueryContracts(this.appid, pageNum, pageSize));
         String response = LxHttpUtil.post("/third/listContract", this.appid, secret);
         return secretManager.decryptWithUTF8(response);
