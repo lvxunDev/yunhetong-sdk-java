@@ -16,31 +16,32 @@ public class LxUser {
     /**
      * 用户在第三方应用平台的唯一标识，由平台各自管理，不能为空，不能大于 200 个字符
      */
-    public String appUserId;
+    protected String appUserId;
+
     /**
      * 用户的手机号码
      */
-    public String phone;
+    protected String phone;
     /**
      * 用户类型
      *
      * @see LxUser.UserType
      */
-    public UserType userType;
+    protected UserType userType;
     /**
      * 用户名，用户实名认证时的用户名，小于 50 个字符
      */
-    public String userName;
+    protected String userName;
     /**
      * 用户实名认证类型
      *
      * @see LxUser.CertifyType
      */
-    public CertifyType certifyType;
+    protected CertifyType certifyType;
     /**
      * 用户实名认证时候的证件号码，可以是对应的身份证、营业执照、组织机构代码证或者其他证件号码，原则上不能大于 50 个字符
      */
-    public String certifyNumber;
+    protected String certifyNumber;
 
     /**
      * 一个空的构造方法，可能并没有什么用
@@ -75,7 +76,7 @@ public class LxUser {
      */
     public enum UserType {
 
-        USER("普通用户", 1), Enterprise("企业用户", 2);
+        USER("普通用户", 1), COMPANY("企业用户", 2);
 
         private String name;
         private int value;
@@ -87,7 +88,7 @@ public class LxUser {
 
         public static UserType get(int value) {
             if (value == 1) return USER;
-            if (value == 2) return Enterprise;
+            if (value == 2) return COMPANY;
             return USER;
         }
 
@@ -101,21 +102,21 @@ public class LxUser {
      * 证件类型：1身份证,2护照,3军官证,4营业执照,5组织机构代码证,6三证合一的那个证
      */
     public enum CertifyType {
-        TYPE_1("身份证", 1), TYPE_2("护照", 2),
-        TYPE_3("军官证", 3), TYPE_4("营业执照", 4),
-        TYPE_5("组织机构代码证", 5), TYPE_6("三证合一", 6);
+        ID_CARD("身份证", 1), PASSPORT("护照", 2),
+        OFFICIAL_CARD("军官证", 3), BUSINESS_LICENCE("营业执照", 4),
+        ORGANIZATION_CODE("组织机构代码证", 5), TYPE_6("三证合一", 6);
 
         private String name;
         private int value;
 
         public static CertifyType get(int value) {
-            if (value == 1) return TYPE_1;
-            if (value == 2) return TYPE_2;
-            if (value == 3) return TYPE_3;
-            if (value == 4) return TYPE_4;
-            if (value == 5) return TYPE_5;
+            if (value == 1) return ID_CARD;
+            if (value == 2) return PASSPORT;
+            if (value == 3) return OFFICIAL_CARD;
+            if (value == 4) return BUSINESS_LICENCE;
+            if (value == 5) return ORGANIZATION_CODE;
             if (value == 6) return TYPE_6;
-            return TYPE_1;
+            return ID_CARD;
         }
 
         private CertifyType(String name, int value) {
@@ -126,5 +127,60 @@ public class LxUser {
         public int getValue() {
             return value;
         }
+    }
+
+
+    public String getAppUserId() {
+        return appUserId;
+    }
+
+    public LxUser setAppUserId(String appUserId) {
+        this.appUserId = appUserId;
+        return this;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public LxUser setPhone(String phone) {
+        this.phone = phone;
+        return this;
+    }
+
+    public UserType getUserType() {
+        return userType;
+    }
+
+    public LxUser setUserType(UserType userType) {
+        this.userType = userType;
+        return this;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public LxUser setUserName(String userName) {
+        this.userName = userName;
+        return this;
+    }
+
+    public CertifyType getCertifyType() {
+        return certifyType;
+    }
+
+    public LxUser setCertifyType(CertifyType certifyType) {
+        this.certifyType = certifyType;
+        return this;
+    }
+
+    public String getCertifyNumber() {
+        return certifyNumber;
+    }
+
+    public LxUser setCertifyNumber(String certifyNumber) {
+        this.certifyNumber = certifyNumber;
+        return this;
     }
 }

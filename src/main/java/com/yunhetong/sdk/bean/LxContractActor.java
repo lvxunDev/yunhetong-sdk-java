@@ -26,7 +26,7 @@ public class LxContractActor extends LxUser {
     /**
      * 默认的空够着方法，可能没什么用
      */
-    private LxContractActor() {
+    public LxContractActor() {
     }
 
     /**
@@ -47,19 +47,50 @@ public class LxContractActor extends LxUser {
         this.locationName = locationName;
     }
 
+    /**
+     * 通过原有的 LxUser 来创建合同参与方
+     *
+     * @param lxUser       lxUser
+     * @param autoSign     是否自动签名
+     * @param locationName 签名位置，在模板那边设置的
+     */
+    public LxContractActor(LxUser lxUser, Boolean autoSign, String locationName) {
+        super(lxUser.getAppUserId(), lxUser.getPhone(), lxUser.getUserType(), lxUser.getUserName(), lxUser.getCertifyType(), lxUser.getCertifyNumber());
+        this.autoSign = autoSign;
+        this.locationName = locationName;
+    }
+
+    /**
+     * 设置参与方跟用户相关的一些字段
+     * @param lxUser  LxUser 类
+     * @return  返回当前 LxContractActor 类
+     * @see LxUser
+     */
+    public LxContractActor setUser(LxUser lxUser) {
+        this.appUserId = lxUser.getAppUserId();
+        this.phone = lxUser.getPhone();
+        this.userType = lxUser.getUserType();
+        this.userName = lxUser.getUserName();
+        this.certifyType = lxUser.getCertifyType();
+        this.certifyNumber = lxUser.getCertifyNumber();
+        return this;
+    }
+
     public Boolean getAutoSign() {
         return autoSign;
     }
 
-    public void setAutoSign(Boolean autoSign) {
+    public LxContractActor setAutoSign(Boolean autoSign) {
         this.autoSign = autoSign;
+        return this;
     }
 
     public String getLocationName() {
         return locationName;
     }
 
-    public void setLocationName(String locationName) {
+    public LxContractActor setLocationName(String locationName) {
         this.locationName = locationName;
+        return this;
     }
 }

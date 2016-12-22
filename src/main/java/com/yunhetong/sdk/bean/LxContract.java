@@ -1,5 +1,6 @@
 package com.yunhetong.sdk.bean;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 /**
@@ -11,25 +12,25 @@ import java.util.LinkedHashMap;
  * @author wuyiping
  * @version 0.0.1
  */
-public class LxContract implements Cloneable {
+public class LxContract{
 
     /**
      * 合同标题
      */
-    public String title;
+    protected String title;
     /**
      * 自定义合同编号
      */
-    public String defContractNo;
+    protected String defContractNo;
 
     /**
      * 合同模板id
      */
-    public String templateId;
+    protected String templateId;
     /**
      * 参数列表
      */
-    public LinkedHashMap<String, String> params;
+    protected HashMap<String, String> params;
 
     /**
      * 放个构造方法意思一下
@@ -52,4 +53,39 @@ public class LxContract implements Cloneable {
         this.params = params;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public LxContract setTitle(String title) {
+        this.title = title;
+        return this;
+    }
+
+    public String getDefContractNo() {
+        return defContractNo;
+    }
+
+    public LxContract setDefContractNo(String defContractNo) {
+        this.defContractNo = defContractNo;
+        return this;
+    }
+
+    public String getTemplateId() {
+        return templateId;
+    }
+
+    public LxContract setTemplateId(String templateId) {
+        this.templateId = templateId;
+        return this;
+    }
+
+    public HashMap<String, String> getParams() {
+        return params;
+    }
+
+    public LxContract setParams(HashMap<String, String> params) {
+        this.params = params;
+        return this;
+    }
 }
