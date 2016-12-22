@@ -14,8 +14,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.util.*;
 
 /**
@@ -29,17 +28,33 @@ import java.util.*;
  */
 public class LxHttpUtil {
 
-    private static final String HOST = "http://sdk.yunhetong.com/sdk";
-    private static Header[] RESPONSE_HTTPINFO = null ;
+    private static String HOST = "http://sdk.yunhetong.com/sdk";
+    private static String responseContentType = "";
 
-    public static Header[] getResponseHttpinfo() {
-        return RESPONSE_HTTPINFO;
+    public static String getResponseContentType() {
+        return responseContentType;
     }
 
+
+    /**
+     * 修改 HOST 的地址，使 SDK 成为调试模式
+     * YHT 程序猿调试用，用户不需要使用这个方法
+     * @param host
+     * @return
+     */
+    public static boolean setDebug(String host){
+        LxHttpUtil.HOST = host;
+        return true;
+    }
     public static String post(String url, Map<String, String> params) {
         String body = null;
+        LxHttpUtil.responseContentType = "";
         CloseableHttpResponse response = sendRequest(HttpClients.createDefault(), postForm(url, params));
         body = paseResponse(response);
+        Header contentTypeHeader = response.getFirstHeader("Content-Type");
+        if (contentTypeHeader != null) {
+            responseContentType = contentTypeHeader.getValue();
+        }
         try {
             response.close();
         } catch (IOException e) {
@@ -47,6 +62,44 @@ public class LxHttpUtil {
         }
 
         return body;
+    }
+
+    /**
+     * 下载的方法
+     *
+     * @param uri    下载的uri
+     * @param params 下载的参数
+     * @return 返回下下来的 byte 数组
+     */
+    public static byte[] download(String uri, Map<String, String> params) throws IOException {
+        LxHttpUtil.responseContentType = "";
+        CloseableHttpResponse response = sendRequest(HttpClients.createDefault(), postForm(HOST + uri, params));
+        HttpEntity entity = response.getEntity();
+
+        InputStream content = entity.getContent();
+        byte[] bytes = LxIOUtils.toByteArray(content);
+        Header contentTypeHeader = response.getFirstHeader("Content-Type");
+        if (contentTypeHeader != null) {
+            responseContentType = contentTypeHeader.getValue();
+        }
+        response.close();
+        return bytes;
+    }
+
+    /**
+     * 下载的方法
+     *
+     * @param uri    下载的 uri 链接
+     * @param appid  第三方应用的 AppId
+     * @param secret 加密后的密文
+     * @return 返回下载下来的 byte 数组
+     * @throws IOException
+     */
+    public static byte[] download(String uri, String appid, String secret) throws IOException {
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("appid", appid);
+        params.put("secret", secret);
+        return download(uri, params);
     }
 
     public static String post(String url, String appid, String secret) {
@@ -97,7 +150,7 @@ public class LxHttpUtil {
         Iterator iter = params.entrySet().iterator();
         while (iter.hasNext()) {
             Map.Entry entry = (Map.Entry) iter.next();
-            nvps.add(new BasicNameValuePair((String) entry.getKey(), (String)entry.getValue()));
+            nvps.add(new BasicNameValuePair((String) entry.getKey(), (String) entry.getValue()));
         }
 
         try {

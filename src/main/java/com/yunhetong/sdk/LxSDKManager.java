@@ -7,7 +7,6 @@ import com.yunhetong.sdk.bean.LxUser;
 import com.yunhetong.sdk.exception.*;
 import com.yunhetong.sdk.secret.LxSecretManager;
 import com.yunhetong.sdk.util.LxHttpUtil;
-import org.apache.http.Header;
 import org.json.JSONObject;
 
 import java.io.File;
@@ -109,6 +108,24 @@ public final class LxSDKManager {
     }
 
     /**
+     * 更新用户信息
+     * @param user  要更新的用户信息，以 appUserId 为唯一标识，只能更新用户的电话号码和用户名
+     * @return
+     * @throws LxEncryptException
+     * @throws LxKeyException
+     * @throws LxNonsupportException
+     * @throws LxDecryptException
+     * @throws LxSignatureException
+     * @throws LxVerifyException
+     */
+    public String updateUserInfo(LxUser user) throws LxEncryptException, LxKeyException, LxNonsupportException, LxDecryptException, LxSignatureException, LxVerifyException {
+        String source = LxMessageProvider.msgGetToken(this.appid, user);
+        String secret = secretManager.encryptWithUTF8(source);
+        String response = LxHttpUtil.post("/third/userUpdate", this.appid, secret);
+        return secretManager.decryptWithUTF8(response);
+    }
+
+    /**
      * 获取用户 Token 并且创建合同的方法
      *
      * @param user     用户实体类
@@ -162,23 +179,15 @@ public final class LxSDKManager {
      * @throws LxSignatureException
      * @throws LxVerifyException
      */
-    public Map<String ,Object> downloadContract(long contractId) throws LxEncryptException, LxKeyException, LxNonsupportException, LxDecryptException, LxSignatureException, LxVerifyException {
-
+    public Map<String ,Object> downloadContract(long contractId) throws LxEncryptException, LxKeyException, LxNonsupportException, LxDecryptException, LxSignatureException, LxVerifyException, IOException {
         JSONObject json = new JSONObject();
         json.put("contractId",contractId);
         json.put("timestamp", new Date().getTime());
         String source = json.toString();
         String secret = secretManager.encryptWithUTF8(source);
-        String response = LxHttpUtil.post("/third/download", this.appid, secret);
+        byte[] response = LxHttpUtil.download("/third/download", this.appid, secret);
         Map<String ,Object> retMap = new HashMap<String, Object>(2);
-        Header[] responseHttpInfo = LxHttpUtil.getResponseHttpinfo();
-        String contentType = "";
-        for (Header header : responseHttpInfo) {
-            if (header.getName().equals("content_type")) {
-                contentType = header.getValue();
-            }
-        }
-        retMap.put("success",contentType.equals("application/octet-stream;charset=UTF-8"));
+        retMap.put("success",LxHttpUtil.getResponseContentType().equals("application/octet-stream;charset=UTF-8"));
         retMap.put("body",response);
         return retMap;
     }
