@@ -1,4 +1,4 @@
-package secret;
+package com.yunhetong.sdk.secret;
 
 import java.util.Random;
 
