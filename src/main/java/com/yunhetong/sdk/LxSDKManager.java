@@ -109,7 +109,8 @@ public final class LxSDKManager {
 
     /**
      * 更新用户信息
-     * @param user  要更新的用户信息，以 appUserId 为唯一标识，只能更新用户的电话号码和用户名
+     *
+     * @param user 要更新的用户信息，以 appUserId 为唯一标识，只能更新用户的电话号码和用户名
      * @return
      * @throws LxEncryptException
      * @throws LxKeyException
@@ -171,7 +172,7 @@ public final class LxSDKManager {
      * 下载合同的方法
      *
      * @param contractId 要下载的合同的合同 Id
-     * @return  失败的话返回错误的 json 字符串，成功的话返回合同的 zip 流
+     * @return 失败的话返回错误的 json 字符串，成功的话返回合同的 zip 流
      * @throws LxEncryptException
      * @throws LxKeyException
      * @throws LxNonsupportException
@@ -179,16 +180,16 @@ public final class LxSDKManager {
      * @throws LxSignatureException
      * @throws LxVerifyException
      */
-    public Map<String ,Object> downloadContract(long contractId) throws LxEncryptException, LxKeyException, LxNonsupportException, LxDecryptException, LxSignatureException, LxVerifyException, IOException {
+    public Map<String, Object> downloadContract(long contractId) throws LxEncryptException, LxKeyException, LxNonsupportException, LxDecryptException, LxSignatureException, LxVerifyException, IOException {
         JSONObject json = new JSONObject();
-        json.put("contractId",contractId);
+        json.put("contractId", contractId);
         json.put("timestamp", new Date().getTime());
         String source = json.toString();
         String secret = secretManager.encryptWithUTF8(source);
         byte[] response = LxHttpUtil.download("/third/download", this.appid, secret);
-        Map<String ,Object> retMap = new HashMap<String, Object>(2);
-        retMap.put("success",LxHttpUtil.getResponseContentType().equals("application/octet-stream;charset=UTF-8"));
-        retMap.put("body",response);
+        Map<String, Object> retMap = new HashMap<String, Object>(2);
+        retMap.put("success", LxHttpUtil.getResponseContentType().equals("application/octet-stream;charset=UTF-8"));
+        retMap.put("body", response);
         return retMap;
     }
 
@@ -211,8 +212,27 @@ public final class LxSDKManager {
     }
 
     /**
+     * 获取最后一次发送的消息
+     * 由于消息回调的方法本地不好调试，我们添加了一个获取最后一次消息的接口，方便本地调试
+     * 使用方法：在完成合同操作之后，调用这个方法去获取我们服务端发的消息，然后再处理直接拿到消息模拟消息回调的过程。
+     *
+     * @return invalidContract
+     * @throws LxEncryptException
+     * @throws LxKeyException
+     * @throws LxNonsupportException
+     * @throws LxDecryptException
+     * @throws LxSignatureException
+     * @throws LxVerifyException
+     */
+    public String getLastNotice() throws LxEncryptException, LxKeyException, LxNonsupportException, LxDecryptException, LxSignatureException, LxVerifyException {
+        String response = LxHttpUtil.get("/third/getLastNotice?appid=" + this.appid);
+        return secretManager.decryptWithUTF8(response);
+    }
+
+    /**
      * 合同查询的接口
-     * @param pageNum 页数
+     *
+     * @param pageNum  页数
      * @param pageSize 每页的合同数量
      * @return 直接和房东签个几年合同
      * @throws LxEncryptException
@@ -230,6 +250,7 @@ public final class LxSDKManager {
 
     /**
      * 对云合同返回的消息进行签名的接口
+     *
      * @param content 要签名的内容
      * @return 返回签名后的内容
      * @throws LxNonsupportException
@@ -242,8 +263,9 @@ public final class LxSDKManager {
 
     /**
      * 验证云合同签名的接口
+     *
      * @param content 内容
-     * @param sign 签名之后的数据
+     * @param sign    签名之后的数据
      * @return 返回签名是否正确
      * @throws LxVerifyException
      * @throws LxKeyException

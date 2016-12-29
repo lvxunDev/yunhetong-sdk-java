@@ -3,8 +3,6 @@ package com.yunhetong.sdk;
 
 import com.yunhetong.sdk.bean.LxContract;
 import com.yunhetong.sdk.bean.LxContractActor;
-import com.yunhetong.sdk.bean.LxContract;
-import com.yunhetong.sdk.bean.LxContractActor;
 import com.yunhetong.sdk.bean.LxUser;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -73,6 +71,7 @@ final class LxMessageProvider {
         json.put("userName", user.getUserName());
         json.put("certifyType", user.getCertifyType().getValue());
         json.put("certifyNumber", user.getCertifyNumber());
+        json.put("createSignature", user.getCreateSignature());
         return json;
     }
 

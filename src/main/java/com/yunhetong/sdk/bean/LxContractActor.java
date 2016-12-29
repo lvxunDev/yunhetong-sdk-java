@@ -41,8 +41,8 @@ public class LxContractActor extends LxUser {
      * @see UserType
      * @see CertifyType
      */
-    public LxContractActor(String appUserId, String phone, UserType userType, String userName, CertifyType certifyType, String certifyNumber, Boolean autoSign, String locationName) {
-        super(appUserId, phone, userType, userName, certifyType, certifyNumber);
+    public LxContractActor(String appUserId, String phone, UserType userType, String userName, CertifyType certifyType, String certifyNumber, Boolean autoSign, String locationName, String createSignature) {
+        super(appUserId, phone, userType, userName, certifyType, certifyNumber, createSignature);
         this.autoSign = autoSign;
         this.locationName = locationName;
     }
@@ -55,15 +55,16 @@ public class LxContractActor extends LxUser {
      * @param locationName 签名位置，在模板那边设置的
      */
     public LxContractActor(LxUser lxUser, Boolean autoSign, String locationName) {
-        super(lxUser.getAppUserId(), lxUser.getPhone(), lxUser.getUserType(), lxUser.getUserName(), lxUser.getCertifyType(), lxUser.getCertifyNumber());
+        super(lxUser.getAppUserId(), lxUser.getPhone(), lxUser.getUserType(), lxUser.getUserName(), lxUser.getCertifyType(), lxUser.getCertifyNumber(), lxUser.getCreateSignature());
         this.autoSign = autoSign;
         this.locationName = locationName;
     }
 
     /**
      * 设置参与方跟用户相关的一些字段
-     * @param lxUser  LxUser 类
-     * @return  返回当前 LxContractActor 类
+     *
+     * @param lxUser LxUser 类
+     * @return 返回当前 LxContractActor 类
      * @see LxUser
      */
     public LxContractActor setUser(LxUser lxUser) {
@@ -73,6 +74,7 @@ public class LxContractActor extends LxUser {
         this.userName = lxUser.getUserName();
         this.certifyType = lxUser.getCertifyType();
         this.certifyNumber = lxUser.getCertifyNumber();
+        this.createSignature = lxUser.getCreateSignature();
         return this;
     }
 

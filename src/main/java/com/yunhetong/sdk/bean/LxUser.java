@@ -44,6 +44,13 @@ public class LxUser {
     protected String certifyNumber;
 
     /**
+     * 是否自动创建签名
+     * 在导入用户并且当值为 1 时，会为导入的用户自动创建签名，0的话就不会，这个值只在用户第一次导入时有效
+     */
+    protected String createSignature = "0";
+
+
+    /**
      * 一个空的构造方法，可能并没有什么用
      */
     public LxUser() {
@@ -61,13 +68,14 @@ public class LxUser {
      * @see LxUser.UserType
      * @see LxUser.CertifyType
      */
-    public LxUser(String appUserId, String phone, UserType userType, String userName, CertifyType certifyType, String certifyNumber) {
+    public LxUser(String appUserId, String phone, UserType userType, String userName, CertifyType certifyType, String certifyNumber, String createSignature) {
         this.appUserId = appUserId;
         this.phone = phone;
         this.userType = userType;
         this.userName = userName;
         this.certifyType = certifyType;
         this.certifyNumber = certifyNumber;
+        this.createSignature = createSignature;
     }
 
     /**
@@ -172,6 +180,16 @@ public class LxUser {
 
     public LxUser setCertifyType(CertifyType certifyType) {
         this.certifyType = certifyType;
+        return this;
+    }
+
+
+    public String getCreateSignature() {
+        return createSignature;
+    }
+
+    public LxUser setCreateSignature(String createSignature) {
+        this.createSignature = createSignature;
         return this;
     }
 
