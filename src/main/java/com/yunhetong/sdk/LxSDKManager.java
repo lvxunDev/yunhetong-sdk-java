@@ -30,8 +30,6 @@ import java.util.Map;
  */
 public final class LxSDKManager {
 
-    private static LxSDKManager manager;
-
     private String appid;
     private LxSecretManager secretManager;
 
