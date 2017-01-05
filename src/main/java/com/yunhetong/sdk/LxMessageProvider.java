@@ -11,8 +11,8 @@ import java.util.Date;
 
 /**
  * <p>Title: LxMessageProvider</p>
- * <p>Description: 合同参与者类</p>
- * <p>合同参与者我们才不管甲方还是乙方呢，反正有几个参与者就传几个 Actor 就好了</p>
+ * <p>Description: 消息转换类</p>
+ * <p>把一些对象转换成后台需要的Json格式</p>
  * <p>Copyright: Copyright (c) 2016</p>
  * <p>Company: www.yunhetong.com</p>
  *

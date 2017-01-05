@@ -19,7 +19,14 @@ import java.util.Map;
 
 
 /**
- * Created by wuyiping on 16/3/2.
+ * <p>Title: LxSDKManager</p>
+ * <p>Description: SDK 管理类</p>
+ * <p>用户用SDK时主要的类，基本上所有的方法都在这里了</p>
+ * <p>Copyright: Copyright (c) 2016</p>
+ * <p>Company: www.yunhetong.com</p>
+ *
+ * @author wuyiping
+ * @version 0.0.1
  */
 public final class LxSDKManager {
 
