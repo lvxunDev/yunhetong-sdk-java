@@ -3,8 +3,6 @@ package com.yunhetong.sdk;
 
 import com.yunhetong.sdk.bean.LxContract;
 import com.yunhetong.sdk.bean.LxContractActor;
-import com.yunhetong.sdk.bean.LxContract;
-import com.yunhetong.sdk.bean.LxContractActor;
 import com.yunhetong.sdk.bean.LxUser;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -13,8 +11,8 @@ import java.util.Date;
 
 /**
  * <p>Title: LxMessageProvider</p>
- * <p>Description: 合同参与者类</p>
- * <p>合同参与者我们才不管甲方还是乙方呢，反正有几个参与者就传几个 Actor 就好了</p>
+ * <p>Description: 消息转换类</p>
+ * <p>把一些对象转换成后台需要的Json格式</p>
  * <p>Copyright: Copyright (c) 2016</p>
  * <p>Company: www.yunhetong.com</p>
  *
@@ -73,6 +71,7 @@ final class LxMessageProvider {
         json.put("userName", user.getUserName());
         json.put("certifyType", user.getCertifyType().getValue());
         json.put("certifyNumber", user.getCertifyNumber());
+        json.put("createSignature", user.getCreateSignature());
         return json;
     }
 

@@ -113,7 +113,7 @@ public class LxHttpUtil {
     public static String get(String url) {
         String body = null;
 
-        HttpGet get = new HttpGet(url);
+        HttpGet get = new HttpGet(HOST + url);
         get.setConfig(requestConfig());
 
         CloseableHttpResponse response = sendRequest(HttpClients.createDefault(), get);
