@@ -84,7 +84,14 @@ public class LxUser {
      */
     public enum UserType {
 
-        USER("普通用户", 1), COMPANY("企业用户", 2);
+        /**
+         * 个人用户
+         */
+        USER("个人用户", 1),
+        /**
+         * 企业用户
+         */
+        COMPANY("企业用户", 2);
 
         private String name;
         private int value;
@@ -110,9 +117,30 @@ public class LxUser {
      * 证件类型：1身份证,2护照,3军官证,4营业执照,5组织机构代码证,6三证合一的那个证
      */
     public enum CertifyType {
-        ID_CARD("身份证", 1), PASSPORT("护照", 2),
-        OFFICIAL_CARD("军官证", 3), BUSINESS_LICENCE("营业执照", 4),
-        ORGANIZATION_CODE("组织机构代码证", 5), TYPE_6("三证合一", 6);
+        /**
+         * 身份证
+         */
+        ID_CARD("身份证", 1),
+        /**
+         * 护照
+         */
+        PASSPORT("护照", 2),
+        /**
+         * 军官证
+         */
+        OFFICIAL_CARD("军官证", 3),
+        /**
+         * 营业执照
+         */
+        BUSINESS_LICENCE("营业执照", 4),
+        /**
+         * 组织机构代码证
+         */
+        ORGANIZATION_CODE("组织机构代码证", 5),
+        /**
+         * 三证合一的那个证
+         */
+        TYPE_6("三证合一", 6);
 
         private String name;
         private int value;
