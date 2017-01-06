@@ -13,6 +13,7 @@
 首先添加依赖
 
 **Maven**
+
 ```maven
 <dependency>
     <groupId>com.yunhetong</groupId>
@@ -22,15 +23,18 @@
 ```
 
 **Gradle**
+
 ```gradle
 compile 'com.yunhetong:sdk:0.0.4-RELEASE'
 ```
 
 **jar 包**
+
 或者您可以直接下载 [jar 包](https://search.maven.org/remotecontent?filepath=com/yunhetong/sdk/0.0.4-RELEASE/sdk-0.0.4-RELEASE.jar)
 
 
 # 0x01 初始化 LxSDKManager
+
 ```java
         // 第三方应用的appId
         String appId = "";
