@@ -1,13 +1,10 @@
 # yunhetong-sdk-java
 欢迎使用 yunhetong java SDK
 
-我们为您编写了一份详细的[Demo](https://github.com/lvxunDev/yunhetong-java-sdk-demo)
-
-你可以查看详细的[文档](https://github.com/lvxunDev/yunhetong-sdk-java/wiki)
-
-遇到问题可以先去看看我们的 [Issue](https://github.com/lvxunDev/yunhetong-sdk-java/issues)
-
-或者也许你想看看 [JavaDoc](https://lvxundev.github.io/yunhetong-sdk-java/javaDoc.html)
+> 我们为您编写了一份详细的[Demo](https://github.com/lvxunDev/yunhetong-java-sdk-demo)
+> 你可以查看详细的[文档](https://github.com/lvxunDev/yunhetong-sdk-java/wiki)
+> 遇到问题可以先去看看我们的 [Issue](https://github.com/lvxunDev/yunhetong-sdk-java/issues)
+> 或者也许你想看看 [JavaDoc](https://lvxundev.github.io/yunhetong-sdk-java/javaDoc.html)
 
 # 快速上手
 
