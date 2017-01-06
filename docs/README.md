@@ -94,7 +94,7 @@ try {
 ```
 
 - 返回结果
-正常会返回如下所示字符串
+正常会返回如下所示 Json 字符串
 
 ```json
 {"code":200,"message":"true","subCode":200,"value":{"contractList":[{"id":1701061349385004,"status":"签署中","title":"测试合同标题40"},{"id":1701031046255028,"status":"签署中","title":"测试合同标题25"}],"token":"TGT-31356-4FZDJcQR3yK4IiaWIafnxQY0QAIoAI0SP6jja0VFY65PJ1S2W4-cas01.example.org"}}
@@ -176,7 +176,7 @@ String s = lxSDKManager.createContract(getTestContract(),getActor());
 - 返回结果
 正常的话会返回如下所示字符串
 
-```
+```json
 {"code":200,"message":"true","subCode":200,"value":{"contractId":1701061352090008}}
 ```
 将上一步得到的 token 和这里的 contractId 返回给客户端，即可用相应的 SDK（比如js SDK 或 Android SDK 或 iOS SDK），去进行合同的相关操作。
@@ -188,6 +188,7 @@ String s = lxSDKManager.getTokenWithContract(getUserA(),getTestContract(),getAct
 ```
 
 正常的话会返回如下所示字符串
+
 ```json
 {"code":200,"message":"true","subCode":200,"value":{"contractId":1701061349385004,"token":"TGT-31353-vpnotTbYFJ5wXoTUDzjSD9eVqZfzx9RZIsUhqGcEL5kjRcS6V6-cas01.example.org"}}
 
