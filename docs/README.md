@@ -164,9 +164,9 @@ try {
         actorA.setLocationName("signA");
 
         LxContractActor actorB = new LxContractActor();
-        actorA.setUser(getUserB());
-        actorA.setAutoSign(false);
-        actorA.setLocationName("signB");
+        actorB.setUser(getUserB());
+        actorB.setAutoSign(false);
+        actorB.setLocationName("signB");
         return new LxContractActor[]{actorA, actorB};
     }
 ```
