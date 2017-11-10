@@ -169,6 +169,10 @@ public class LxHttpUtil {
 
     private static String paseResponse(HttpResponse response) {
 
+        if (response == null) {
+            return null;
+        }
+
         HttpEntity entity = response.getEntity();
 
         String body = null;
